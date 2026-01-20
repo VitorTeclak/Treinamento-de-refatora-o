@@ -5,8 +5,8 @@ com foco em boas práticas, Clean Code e fundamentos de engenharia de software.
 Os projetos estão organizados por linguagem:
 
 - **Python/**
-- **Java/**
-- **JavaScript/**
+- **Java/** (Futuro projeto)
+- **JavaScript/** (Futuro projeto)
 
 Cada pasta contém projetos independentes, com documentação própria,
 incluindo versões antes/depois quando aplicável.
