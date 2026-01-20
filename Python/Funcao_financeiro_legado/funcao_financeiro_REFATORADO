@@ -1,0 +1,102 @@
+def verificaValorMinimo(dados):
+    if dados["valor"] <= 0:
+        raise ValueError("Valor inválido")
+def verificaTipoDeClienteCredito(dados, taxaDesconto):
+    if dados["cliente"] == "VIP":
+        return taxaDesconto - (taxaDesconto * 0.4)
+    else:
+        return taxaDesconto
+def verificaTipoDeClienteDebito(dados, taxaDesconto):
+    if dados["cliente"] == "VIP":
+        return taxaDesconto - (taxaDesconto * 0.25)
+    else:
+        return taxaDesconto
+def verificaValorDaTransacaoCredito(dados):
+    if dados['valor'] > 2000:
+        taxaDesconto = dados['valor'] * 0.025      
+    else: 
+        taxaDesconto = dados['valor'] * 0.015
+    taxaDesconto = verificaTipoDeClienteCredito(dados,taxaDesconto)
+    return taxaDesconto
+def verificaValorDaTransacaoDebito(dados):
+    if dados["valor"] > 1000:
+        taxaDesconto = dados["valor"] * 0.02
+    else:
+        taxaDesconto  = dados["valor"] * 0.01
+    taxaDesconto = verificaTipoDeClienteDebito(dados, taxaDesconto)
+    return taxaDesconto
+def verificaTipoDaTransacao(dados):
+    if dados['formaDePagamento'] == "Credito":
+        taxaDesconto = verificaValorDaTransacaoCredito(dados)
+        
+    elif dados['formaDePagamento'] == "Debito":
+        taxaDesconto = verificaValorDaTransacaoDebito(dados)
+    return taxaDesconto
+def verificaCashback(total, dados):
+    if dados.get("cashback"):
+        return verificaTipoCashback(total, dados)
+    return 0
+def verificaTipoCashback(total, dados):
+    if dados['formaDePagamento'] == "Credito":
+        return calculaCashbackCredito(total)
+    elif dados["formaDePagamento"] == "Debito":
+        return calculaCashbackDebito(total)
+def calculaCashbackCredito(total):
+    return total * 0.02
+def calculaCashbackDebito(total):
+    return total * 0.01
+def calculaTotalComCashbackCredito(total, cashback):
+    return total + cashback
+def calculaTotalComCashbackDebito(total, cashback):
+    return total - cashback
+
+def verificaTipoTotal(dados, taxaDesconto):
+    if dados['formaDePagamento'] == "Credito":
+        return calculaTotalCredito(dados["valor"], taxaDesconto)
+    elif dados["formaDePagamento"] == "Debito":
+        return calculaTotalDebito(dados["valor"], taxaDesconto)
+def calculaTotalCredito(valor, taxaDesconto):
+    return valor - taxaDesconto
+def calculaTotalDebito(valor, taxa):
+    return valor + taxa
+
+def verificaTipoTotalComCashback(total, totalCashback, dados):
+    if dados['formaDePagamento'] == "Credito":
+        return calculaTotalComCashbackCredito(total, totalCashback)
+    elif dados["formaDePagamento"] == "Debito":
+        return calculaTotalComCashbackDebito(total, totalCashback)
+def run(dados):
+    r = []
+    total = 0
+    taxaDesconto = 0
+    cashback = 0
+    for cliente in dados:
+        try: 
+            verificaValorMinimo(cliente)
+            taxaDesconto = verificaTipoDaTransacao(cliente)
+            total = verificaTipoTotal(cliente, taxaDesconto)
+            totalCashback = verificaCashback(total, cliente)
+            if totalCashback:
+                total = verificaTipoTotalComCashback(total, totalCashback, cliente)
+        except ValueError as e:
+            print(e)
+
+        r.append({
+            "cliente": cliente["cliente"],
+            "tipo": cliente["formaDePagamento"],
+            "total": round(total, 2)
+        })
+
+    print("processamento finalizado")
+    return r
+
+
+dados = [
+    {"cliente": "VIP", "formaDePagamento": "Credito", "valor": 3000, "cashback": True},
+    {"cliente": "NORMAL", "formaDePagamento": "Debito", "valor": 500},
+    {"cliente": "VIP", "formaDePagamento": "Debito", "valor": 2000, "cashback": True},
+    {"cliente": "NORMAL", "formaDePagamento": "Credito", "valor": -10},
+]
+
+res = run(dados)
+print(res)
