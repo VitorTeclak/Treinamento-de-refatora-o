@@ -75,9 +75,9 @@ def run(dados):
             verificaValorMinimo(cliente)
             taxaDesconto = verificaTipoDaTransacao(cliente)
             total = verificaTipoTotal(cliente, taxaDesconto)
-            totalCashback = verificaCashback(total, cliente)
-            if totalCashback:
-                total = verificaTipoTotalComCashback(total, totalCashback, cliente)
+            cashback = verificaCashback(total, cliente)
+            if cashback:
+                total = verificaTipoTotalComCashback(total, cashback, cliente)
         except ValueError as e:
             print(e)
 
