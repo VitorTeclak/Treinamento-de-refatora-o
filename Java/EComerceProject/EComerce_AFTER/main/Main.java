@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         List<Order> orders = new ArrayList<>();
 
-        Order order1 = new Order(TypeOfCustomer.valueOf("PREMIUM"), 2500.00, DeliveredType.valueOf("NORMAL"), PaymentType.valueOf("CREDIT"), true, CouponType.valueOf("DESC20"));
+        Order order1 = new Order(TypeOfCustomer.valueOf("PREMIUM"), 0, DeliveredType.valueOf("NORMAL"), PaymentType.valueOf("CREDIT"), true, CouponType.valueOf("DESC20"));
         Order order2 = new Order(TypeOfCustomer.valueOf("BASIC"), 800.00, DeliveredType.valueOf("EXPRESS"), PaymentType.valueOf("DEBIT"));
         Order order3 = new Order(TypeOfCustomer.valueOf("ENTERPRISE"), 5000.00, DeliveredType.valueOf("NORMAL"), PaymentType.valueOf("PIX"), true);
 
@@ -30,25 +30,32 @@ public class Main {
             double discount = 0;
             double cashback = 0;
 
-            valueOfDelivered =order.calculateShipping();
-            tax = order.calculateTax();
-            totalPurchaseAmount = order.calculateTotalAmount(valueOfDelivered, tax);
-            discount = order.calculateCoupon(totalPurchaseAmount);
-            cashback = order.checkCashback(totalPurchaseAmount);
-            totalPurchaseAmount = order.calculateFinalValue(totalPurchaseAmount, discount, cashback);
+            try {
+                order.checkMinValue();
+                valueOfDelivered =order.calculateShipping();
+                tax = order.calculateTax();
+                totalPurchaseAmount = order.calculateTotalAmount(valueOfDelivered, tax);
+                discount = order.calculateCoupon(totalPurchaseAmount);
+                cashback = order.checkCashback(totalPurchaseAmount);
+                totalPurchaseAmount = order.calculateFinalValue(totalPurchaseAmount, discount, cashback);
 
-            System.out.println(
-                "CLIENT=" + order.getTypeOfCustomer() +
-                " PAYMENT=" + order.getPaymentType() +
-                " DELIVERY=" + order.getDeliveredType() +
-                " VALUE=" + order.getTotalPurchaseAmount() +
-                " VALUE OF DELIVERED=" + valueOfDelivered +
-                " TAX=" + tax +
-                " DISCOUNT=" + discount +
-                " CASHBACK=" + cashback +
-                " TOTAL=" + totalPurchaseAmount
-            );
+                System.out.println(
+                    "CLIENT=" + order.getTypeOfCustomer() +
+                    " PAYMENT=" + order.getPaymentType() +
+                    " DELIVERY=" + order.getDeliveredType() +
+                    " VALUE=" + order.getTotalPurchaseAmount() +
+                    " VALUE OF DELIVERED=" + valueOfDelivered +
+                    " TAX=" + tax +
+                    " DISCOUNT=" + discount +
+                    " CASHBACK=" + cashback +
+                    " TOTAL=" + totalPurchaseAmount
+                );
 
+            } catch (IllegalArgumentException exception) {
+                System.out.println(exception.getMessage());
+            }
+
+            
 
         }
     }

@@ -1,7 +1,7 @@
 Este repositório reúne estudos práticos, refatorações e projetos desenvolvidos
 com foco em boas práticas, Clean Code e fundamentos de engenharia de software.
 
-## 📂 Estrutura
+## Estrutura
 Os projetos estão organizados por linguagem:
 
 - **Python/**
@@ -11,10 +11,10 @@ Os projetos estão organizados por linguagem:
 Cada pasta contém projetos independentes, com documentação própria,
 incluindo versões antes/depois quando aplicável.
 
-## 🎯 Objetivo
+## Objetivo
 Demonstrar evolução técnica, raciocínio de código e capacidade de refatoração
 em cenários próximos à realidade de mercado.
 
-## ✍️ Autor
+## Autor
 Vitor Teclak  
 Estudante de Análise e Desenvolvimento de Sistemas  

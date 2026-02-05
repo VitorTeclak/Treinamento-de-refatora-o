@@ -61,6 +61,12 @@ public class Order {
         return paymentType;
     }
 
+    public void checkMinValue() {
+    if (totalPurchaseAmount <= 0) {
+        throw new IllegalArgumentException("Invalid Value");
+    }
+}
+
     public int calculateShipping() {
         return deliveredType == DeliveredType.NORMAL ? 20 : 40; // NORMAL / EXPRESS
     }
